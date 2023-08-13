@@ -1,17 +1,31 @@
 import React from 'react';
 import { useState } from 'react';
 import axios from 'axios'
-import '../components/LoginForm.css'
+import apis from '../api/apis';
+import '../components/LoginForm.css';
+import { Navigate, useNavigate } from 'react-router-dom';
 export default function NotFound() {
+
   const [username,setUsername] = useState()
   const [email,setEmail] = useState()
   const [password,setPassword] = useState()
   const [confirm_password,setConfirmpassword] = useState()
 
-  const handleSubmit = (e)=>{
-    e.preventDefault()
-    axios.post('http://localhost:5000/user/signup',{username,email,password,confirm_password}).then(result => console.log(result)).catch(err =>console.log(err))
-  }
+  const handleSubmit = async(e)=>{
+    try {
+      const response = await axios.post(apis.signUp, {
+        username,
+        email,
+        password,
+        confirm_password,
+      });
+      console.log(response.data); 
+      console.log(response.status);// Assuming the server sends a response message
+      // Redirect to the login page after successful registration
+      // Navigate('/login');
+    } catch (error) {
+      console.log(error);
+    } }
   return (
 
     <>
