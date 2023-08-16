@@ -180,3 +180,6 @@ input[type="submit"]:active
     height: calc(20vw - 2px);
   }
 }
+.custom-error {
+  color: red; /* Set the color to red */
+}

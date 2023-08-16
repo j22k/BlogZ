@@ -4,16 +4,16 @@ const { getDatabase } = require('../config/connection');
 const userHelpers = require('../helpers/userHelpers');
 
 router.post('/signup', async (req, res) => {
-  console.log(req.body);
 
   result = await userHelpers.dosignup(req.body);
   console.log(result);
+  console.log(result.status);
   if(result.status){
-    res.sendStatus(200).json("registerd succesfully");
+    res.status(200).json({msg : "registerd succesfully"});
   }
   else{
     console.log(result);
-    res.sendStatus(400).json(result.message);
+    res.status(400).json(result.message);
   }
   
 });

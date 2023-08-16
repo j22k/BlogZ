@@ -6,26 +6,41 @@ import '../components/LoginForm.css';
 import { Navigate, useNavigate } from 'react-router-dom';
 export default function NotFound() {
 
+  const navigate = useNavigate();
   const [username,setUsername] = useState()
   const [email,setEmail] = useState()
   const [password,setPassword] = useState()
-  const [confirm_password,setConfirmpassword] = useState()
+  const [confirmPassword,setConfirmpassword] = useState()
+  const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
 
   const handleSubmit = async(e)=>{
+    e.preventDefault();
+    if (password !== confirmPassword) {
+      setErrorMessage('Passwords do not match');
+      return;
+    }
+
     try {
       const response = await axios.post(apis.signUp, {
         username,
         email,
         password,
-        confirm_password,
+        confirm_password: confirmPassword,
       });
-      console.log(response.data); 
-      console.log(response.status);// Assuming the server sends a response message
-      // Redirect to the login page after successful registration
-      // Navigate('/login');
+
+      if (response.status === 200) {
+        setSuccessMessage('Registered successfully');
+        await navigate('/login');
+      }
     } catch (error) {
-      console.log(error);
-    } }
+      if (error.response && error.response.status === 400) {
+        setErrorMessage('User already registered');
+      } else {
+        setErrorMessage('An error occurred');
+      }
+    }
+   }
   return (
 
     <>
@@ -71,9 +86,11 @@ export default function NotFound() {
     <div className="signin">
       <div className="content">
         <h2>Sign Up</h2>
+        
         <form onSubmit={handleSubmit}>
         <div className="form">
           <div className="inputBox">
+            {errorMessage && <div className="alert alert-danger custom-error">{errorMessage}</div>}
             <input type="text" required="" 
               onChange={(e)=>setUsername(e.target.value)}
             /> <i>Username</i>

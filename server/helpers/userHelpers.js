@@ -27,11 +27,10 @@ module.exports = {
 
           if (response.acknowledged) {
             console.log('New account for user created successfully');
-            status = true;
-            return true;
+            return {status : true};
           } else {
             console.log("Couldn't create account");
-            return false;
+            return {status : true};
           }
         } catch (err) {
           console.log(err);
