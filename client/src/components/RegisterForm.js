@@ -12,7 +12,6 @@ export default function NotFound() {
   const [password,setPassword] = useState()
   const [confirmPassword,setConfirmpassword] = useState()
   const [errorMessage, setErrorMessage] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
 
   const handleSubmit = async(e)=>{
     e.preventDefault();
@@ -30,7 +29,6 @@ export default function NotFound() {
       });
 
       if (response.status === 200) {
-        setSuccessMessage('Registered successfully');
         await navigate('/login');
       }
     } catch (error) {

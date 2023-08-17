@@ -18,4 +18,15 @@ router.post('/signup', async (req, res) => {
   
 });
 
+router.post('/signin',async (req,res)=>{
+  console.log(req.body);
+  result = await userHelpers.dosignin(req.body)
+  if(result.status){
+    res.status(200).json({message : "registerd succesfully"});
+  }
+  else{
+    console.log(result);
+    res.status(201).json(result.message);
+  }
+})
 module.exports = router;

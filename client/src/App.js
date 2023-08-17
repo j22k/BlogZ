@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import LoginForm from './components/LoginForm';
 import RegisterForm from './components/RegisterForm';
+import Blog from './components/blog/blog';
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
         <Route path="/signup" element={<RegisterForm />} />
         <Route path="/login" element={<LoginForm />} />
         <Route path="/" element={<LoginForm />} />
+        <Route path="/blog" element={<Blog />} />
       </Routes>
     </Router>
   );
