@@ -19,7 +19,9 @@ export default function NotFound() {
         password,
       });
       if (response.status === 200) {
-        await navigate('/blog');
+        const token = response.data.token;
+        localStorage.setItem('token', token); 
+        await navigate('/Card');
       }
       else{
         setErrorMessage(response.data)

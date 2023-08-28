@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
+const jwt = require('jsonwebtoken');
 const { getDatabase } = require('../config/connection');
 const userHelpers = require('../helpers/userHelpers');
+const { jwtSecret } = require('../config/config');
 
 router.post('/signup', async (req, res) => {
 
@@ -20,13 +22,15 @@ router.post('/signup', async (req, res) => {
 
 router.post('/signin',async (req,res)=>{
   console.log(req.body);
-  result = await userHelpers.dosignin(req.body)
-  if(result.status){
-    res.status(200).json({message : "registerd succesfully"});
+  user = await userHelpers.dosignin(req.body)
+  if(user.status){
+    const token = jwt.sign({ id: user._id }, jwtSecret, { expiresIn: '1h' })
+    console.log(token);
+    res.status(200).json({message : "Loged succesfully",token});
   }
   else{
-    console.log(result);
-    res.status(201).json(result.message);
+    console.log(user);
+    res.status(201).json(user.message);
   }
 })
 module.exports = router;
