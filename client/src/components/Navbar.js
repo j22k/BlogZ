@@ -1,63 +1,74 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Dropdown from 'react-bootstrap/Dropdown';
-import Button from 'react-bootstrap/Button';
-import DropdownButton from 'react-bootstrap/DropdownButton';
-import { Navigate, useNavigate, Link } from 'react-router-dom';
+import Image from 'react-bootstrap/Image';
+import {useNavigate, Link } from 'react-router-dom';
+import '../styles/Navbar.css';
 
 const DashboardHeader = () => {
-
   const navigate = useNavigate();
   const token = localStorage.getItem('token');
   const handleLogout = async () => {
     localStorage.removeItem('token');
-    await navigate('/');
+    await navigate('/'); 
   };
-
+  
   return (
     <div className="dashboard-header">
-      <nav className="navbar navbar-expand-lg bg-white fixed-top">
-        <button
+      <nav className="navbar navbar-expand-lg bg-black fixed-top">
+        {/* <button
           className="navbar-toggler"
           type="button"
-          data-toggle="collapse"
-          data-target="#navbarSupportedContent"
+          data-bs-toggle="collapse" // Add this
+          data-bs-target="#navbarSupportedContent" // Add this
           aria-controls="navbarSupportedContent"
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
           <span className="navbar-toggler-icon"></span>
-        </button>
+        </button> */}
+        <div className="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
+          <h4>Story Sculpt</h4>
+        </div>
+
         <div className="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
           <ul className="navbar-nav ml-auto navbar-right-top">
             {token ? (
-
               <li className="nav-item dropdown nav-user">
-                <Dropdown data-bs-theme="dark">
+                <Dropdown className="custom-dropdown" data-bs-theme="dark">
                   <Dropdown.Toggle id="dropdown-button-dark-example1" variant="secondary">
-                    Dropdown Button
+                    <Image
+                      src="/path/to/profile-icon.png"
+                      alt="username"
+                      roundedCircle
+                      style={{ width: '30px', height: '30px', marginRight: '8px' }}
+                    />
                   </Dropdown.Toggle>
 
                   <Dropdown.Menu>
                     <Dropdown.Item href="#/action-1" active>
-                      Action
+                      Profile
                     </Dropdown.Item>
-                    <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                    <Dropdown.Item href="#/action-3"></Dropdown.Item>
+                    <Dropdown.Item href="/write">Write</Dropdown.Item>
+                    <Dropdown.Item href="/Card">Read</Dropdown.Item>
                     <Dropdown.Divider />
-                    <Dropdown.Item href="#/action-4"><Button variant="danger" onClick={handleLogout} >Logout</Button></Dropdown.Item>
+                    <Dropdown.Item className="red-dropdown-item" onClick={handleLogout}>
+                      Logout
+                    </Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
-
-
               </li>
             ) : (
               <>
                 <li>
-                  <Link to="/" className="btn btn-light">Sign In</Link>
+                  <Link to="/" className="btn btn-light">
+                    Sign In
+                  </Link>
                 </li>
                 <li>
-                  <Link to="/signup" className="btn btn-primary ml-2">Sign Up</Link>
+                  <Link to="/signup" className="btn green-button">
+                    Sign Up
+                  </Link>
                 </li>
               </>
             )}

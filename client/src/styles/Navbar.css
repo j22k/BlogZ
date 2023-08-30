@@ -1,0 +1,26 @@
+/* Custom styles for the dropdown component */
+.custom-dropdown {
+    background-color: #333; /* Custom background color */
+    border: none;
+  }
+  .custom-dropdown :hover{
+    color: #0f0;
+  }
+  
+  
+  /* Apply custom styles to the active (selected) dropdown item */
+  .custom-dropdown .dropdown-item.active {
+    background-color: #0f0; /* Custom background color for active item */
+  }
+
+  h4 {
+    font-family: "Roboto", sans-serif;
+    font-size: 36px;
+    font-weight: bold;
+    font-style: normal;
+    text-align: left;
+    margin-left: 5%;
+    color: #0f0;
+  }
+  
+  

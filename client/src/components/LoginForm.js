@@ -3,7 +3,7 @@ import { useState } from 'react'
 import axios from 'axios';
 import apis from '../api/apis';
 import '../components/LoginForm.css'
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 export default function NotFound() {
  
   const navigate = useNavigate();
@@ -93,7 +93,7 @@ export default function NotFound() {
           </div>
           <div className="links">
             {" "}
-            <a href="#">Forgot Password</a> <a href="/signup">Signup</a>
+            <a href="/">Forgot Password</a> <a href="/signup">Signup</a>
           </div>
           <div className="inputBox">
             <input type="submit" defaultValue="Login" />
