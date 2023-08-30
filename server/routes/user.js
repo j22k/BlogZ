@@ -22,14 +22,16 @@ router.post('/signup', async (req, res) => {
 
 router.post('/signin',async (req,res)=>{
   console.log(req.body);
-  user = await userHelpers.dosignin(req.body)
-  if(user.status){
-    const token = jwt.sign({ id: user._id }, jwtSecret, { expiresIn: '1h' })
+  result = await userHelpers.dosignin(req.body)
+  if(result.status){
+    console.log(result.user);
+    console.log(result);
+    const token = jwt.sign({ id: result.user._id,user : result.user.username }, jwtSecret, { expiresIn: '1h' })
     console.log(token);
     res.status(200).json({message : "Loged succesfully",token});
   }
   else{
-    console.log(user);
+    console.log(result);
     res.status(201).json(user.message);
   }
 })

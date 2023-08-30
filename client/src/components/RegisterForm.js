@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import axios from 'axios'
 import apis from '../api/apis';
-import '../components/LoginForm.css';
+import '../styles/LoginForm.css';
 import {useNavigate } from 'react-router-dom';
 export default function NotFound() {
 

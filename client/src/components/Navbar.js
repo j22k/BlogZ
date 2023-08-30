@@ -1,13 +1,23 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Image from 'react-bootstrap/Image';
 import {useNavigate, Link } from 'react-router-dom';
+import jwt_decode from 'jwt-decode';
 import '../styles/Navbar.css';
 
 const DashboardHeader = () => {
+  const [username, setUsername] = useState('');
   const navigate = useNavigate();
+  
   const token = localStorage.getItem('token');
+  useEffect(() => {
+    if (token) {
+      const decodedToken = jwt_decode(token);
+      setUsername(decodedToken.user);
+    }
+  }, []);
+
   const handleLogout = async () => {
     localStorage.removeItem('token');
     await navigate('/'); 
@@ -39,7 +49,7 @@ const DashboardHeader = () => {
                   <Dropdown.Toggle id="dropdown-button-dark-example1" variant="secondary">
                     <Image
                       src="/path/to/profile-icon.png"
-                      alt="username"
+                      alt={username}
                       roundedCircle
                       style={{ width: '30px', height: '30px', marginRight: '8px' }}
                     />

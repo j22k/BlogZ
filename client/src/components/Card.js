@@ -1,8 +1,11 @@
-import React from 'react';
+import React from 'react'
+import jwt_decode from 'jwt-decode'
 import '../styles/Card.css';
 import Container from 'react-bootstrap/Container'; // Import your custom CSS file for styling
 
 const Card = ({ title, description, profileImage }) => {
+  
+
   return (
     <>
       <Container>
@@ -19,7 +22,7 @@ const Card = ({ title, description, profileImage }) => {
             </p>
           </div>
           <div className="card-body">
-
+          <pre></pre>
           </div>
         </div>
       </Container>
