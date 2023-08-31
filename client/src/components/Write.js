@@ -2,10 +2,16 @@ import React, { useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
-import axios from 'axios'; // Import axios for making HTTP requests
 import '../styles/Card.css'
+import axios from 'axios';
+import { useNavigate, Link } from 'react-router-dom';
+import jwt_decode from 'jwt-decode';
+import apis from '../api/apis';
 
 const Card = ({ title, description, profileImage }) => {
+  const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setsuccessMessage] = useState('');
   const [formData, setFormData] = useState({
     title: '',
     story: '',
@@ -21,23 +27,46 @@ const Card = ({ title, description, profileImage }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setErrorMessage('');
+    setsuccessMessage('');
+    const token = localStorage.getItem('token');
+    if (token) {
+      const decodedToken = jwt_decode(token);
 
-    try {
-      const response = await axios.post('/api/submit', formData); // Change this to your API endpoint
-      // Clear the form fields after successful submission
-      setFormData({
-        title: '',
-        story: '',
-      });
-      console.log('Server Response:', response.data);
-    } catch (error) {
-      console.error('Error:', error);
+      const storyData = {
+        id: decodedToken.id,
+        user: decodedToken.user,
+        ...formData, // Spread the formData properties
+      };
+      try {
+        const response = await axios.post(apis.writeSubmit, storyData); 
+        
+        if (response.status === 200) {
+           setsuccessMessage(response.data.message)
+          // Clear the form fields after successful submission
+          setFormData({
+            title: '',
+            story: '',
+          });
+        }
+        else {
+          setErrorMessage(response.data.message)
+        }
+      } catch (error) {
+        setErrorMessage('Somthing went wrong !!')
+      }
+    } else {
+      navigate('/');
     }
+
+
   };
 
   return (
     <Container>
       <div className="card-write">
+        {errorMessage && <div className="alert alert-danger custom-error">{errorMessage}</div>}
+        {successMessage && <div className="alert alert-success custom-success">{successMessage}</div>}
         <div className="card-header custom-green">
           <Form.Control
             size="lg"

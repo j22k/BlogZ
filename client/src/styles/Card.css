@@ -63,3 +63,13 @@
   border-color: #0f0;
   color: #0f0;
 }
+
+.btn::after{
+  background-color: #333;
+  border-color: #0f0;
+  color: #0f0;
+}
+
+.container{
+  margin-top: 60px;
+}

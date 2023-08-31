@@ -63,5 +63,53 @@ module.exports = {
           console.log(err);
           throw new Error('Unable to sign in');
         }
+      },
+      dowrite : async (writeData) =>{
+        try {
+          const db = getDatabase();
+
+          const existingStory = await db.collection(collections.STORY).findOne({story : writeData.story});
+          if (existingStory) {
+            return {status : false ,message : "This Story already exist"};
+          }
+
+          writeData.date = new Date();
+          writeData.likes = 0;
+         
+
+          const storyResponse = await db.collection(collections.STORY).insertOne(writeData);
+    
+          if (storyResponse.acknowledged) {
+            console.log('Stroy writed successfully');
+            return {status : true,message :'New stroy added'};
+          } else {
+            console.log("Couldn't add new Story somthing went wrong");
+            return {status : false,message : "Couldn't add new Story somthing went wrong"};
+          }
+        } catch (err) {
+          console.log(err);
+          return {status : false,message : err};
+        }
+      },
+      dofetch : async () =>{
+        try {
+          const db = getDatabase();
+
+          const fetchPost = await db.collection(collections.STORY).find({},
+             { 
+              projection:{ id: 1,user : 1, title: 1, story: 1, date: 1, likes: 1 },
+               sort: { date: -1 } 
+              }).toArray();
+          if(fetchPost){
+            return {status : true,datas : fetchPost};
+          }
+          else{
+            return {status : false,datas :"couldn't fetch Posts"};
+          }
+
+        } catch (err) {
+          console.log(err);
+          return {status : false,message : err};
+        }
       }
 }

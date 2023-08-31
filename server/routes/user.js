@@ -32,7 +32,26 @@ router.post('/signin',async (req,res)=>{
   }
   else{
     console.log(result);
-    res.status(201).json(user.message);
+    res.status(201).json(result.message);
+  }
+})
+router.post('/write',async (req,res)=>{
+  console.log(req.body);
+  result = await userHelpers.dowrite(req.body);
+  if(result.status){
+    res.status(200).json({message : result.message})
+  }
+  else{
+    res.status(201).json({message : result.message})
+  }
+})
+router.get('/fetchstory',async (req,res)=>{
+  result = await userHelpers.dofetch();
+  if(result.status){
+    res.status(200).json({data : result.datas})
+  }
+  else{
+    res.status(201).json({data : result.datas})
   }
 })
 module.exports = router;
